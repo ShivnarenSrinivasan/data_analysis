@@ -35,7 +35,7 @@ from sklearn.preprocessing import StandardScaler
 # from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 
-Dataset = tuple[np.ndarray, np.ndarray]
+Dataset = Tuple[np.ndarray, np.ndarray]
 CM_BRIGHT = ListedColormap(["#FF0000", "#0000FF"])
 
 
