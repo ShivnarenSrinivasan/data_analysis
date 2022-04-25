@@ -1,4 +1,5 @@
 from typing import (
+    Dict,
     Iterable,
     Union,
 )
@@ -9,12 +10,13 @@ import pandas as pd
 
 
 def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
-    def get_unique(ser: pd.Series) -> np.ndarray | str:
+
+    def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
         unique = ser.unique()
         extra_char = '...'
         return extra_char if len(unique) > unique_thresh else unique
 
-    def value_counts(ser: pd.Series) -> dict | str:
+    def value_counts(ser: pd.Series) -> Union[Dict[str, int], str]:
         unique = ser.unique()
         extra_char = '...'
         return (
