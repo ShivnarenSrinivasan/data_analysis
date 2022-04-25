@@ -28,7 +28,7 @@ def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
 
 
 def describe_quantiles(
-    df: pd.DataFrame, /, quantiles: Union[Iterable[int], None] = None
+    df: pd.DataFrame, quantiles: Union[Iterable[int], None] = None
 ) -> pd.DataFrame:
     """Calculate quantile values of dataframe."""
     if quantiles is None:
