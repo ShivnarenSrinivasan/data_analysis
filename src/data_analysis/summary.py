@@ -1,5 +1,4 @@
 from typing import (
-    Literal as L,
     Iterable,
     Union,
 )
@@ -10,7 +9,7 @@ import pandas as pd
 
 
 def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
-    def get_unique(ser: pd.Series) -> Union[np.ndarray, L['...']]:
+    def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
         unique = ser.unique()
         extra_char = '...'
         return extra_char if len(unique) > unique_thresh else unique
@@ -21,7 +20,6 @@ def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
             'dtypes': df.dtypes,
             'na_count': df.isna().sum(),
             'NA%': df.isna().sum() / df.count(),
-            # 'unique': [df[col].unique() for col in df],
             'unique': df.apply(get_unique),
         }
     )
