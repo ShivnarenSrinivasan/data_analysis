@@ -9,10 +9,17 @@ import pandas as pd
 
 
 def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
-    def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
+    def get_unique(ser: pd.Series) -> np.ndarray | str:
         unique = ser.unique()
         extra_char = '...'
         return extra_char if len(unique) > unique_thresh else unique
+
+    def value_counts(ser: pd.Series) -> dict | str:
+        unique = ser.unique()
+        extra_char = '...'
+        return (
+            extra_char if len(unique) > unique_thresh else ser.value_counts().to_dict()
+        )
 
     return pd.DataFrame(
         {
@@ -21,6 +28,7 @@ def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
             'na_count': df.isna().sum(),
             'NA%': df.isna().sum() / df.count(),
             'unique': df.apply(get_unique),
+            'value_counts': df.apply(value_counts),
         }
     )
 
