@@ -9,6 +9,7 @@ from matplotlib import (
     axes,
 )
 
+from . import summary
 
 def plot_value_counts(df_dict, figsize=(16, 9)):
     # plot_count = len(set(df.index.get_level_values(0)))
@@ -25,16 +26,6 @@ def plot_value_counts(df_dict, figsize=(16, 9)):
     plt.suptitle("Value Counts")
 
 
-def tril_corr(df: pd.DataFrame, drop: bool = True) -> pd.DataFrame:
-    cols = df.columns
-    corr = pd.DataFrame(
-        np.ma.masked_equal(np.tril(df.corr(), k=-1 if drop else 0), 0),
-        columns=cols,
-        index=cols,
-    )
-    return corr.iloc[1:, :-1] if drop else corr
-
-
 def corr_heatmap(df: pd.DataFrame, drop: bool = True, **kwargs) -> axes.Axes:
-    corr = tril_corr(df, drop)
+    corr = summary.tril_corr(df, drop)
     return sns.heatmap(data=corr, **kwargs)

@@ -10,7 +10,6 @@ import pandas as pd
 
 
 def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
-
     def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
         unique = ser.unique()
         extra_char = '...'
@@ -68,3 +67,23 @@ def gen_value_counts(df, thresh=10):
         )
     concat_df = pd.concat([df_dict[key] for key in df_dict])
     return df_dict
+
+
+def tril_corr(df: pd.DataFrame, drop: bool = True) -> pd.DataFrame:
+
+    cols = df.select_dtypes('number').columns
+    corr = pd.DataFrame(
+        np.ma.masked_equal(np.tril(df.corr(), k=-1 if drop else 0), 0),
+        columns=cols,
+        index=cols,
+    )
+    return corr.iloc[1:, :-1] if drop else corr
+
+
+def corr_vars(df: pd.DataFrame, thresh: float = 0.8) -> pd.DataFrame:
+    return (
+        df.pipe(tril_corr)
+        .mask(lambda df: df.abs() < thresh)
+        .dropna(how='all')
+        .dropna(how='all', axis=1)
+    )
