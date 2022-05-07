@@ -3,6 +3,18 @@
 from . import (
     plot,
     summary,
+    utils,
+)
+
+from .summary import (
+    value_summary,
+    describe_quantiles,
+    tril_corr,
+    corr_vars,
+)
+
+from .clean import (
+    invariant_cols,
 )
 
 from .structs import (
@@ -13,10 +25,16 @@ from .structs import (
 )
 
 __all__ = [
-    'plot',
-    'summary',
+    'corr_vars',
     'Data',
     'Dataset',
-    'TrainTestData',
+    'describe_quantiles',
+    'invariant_cols',
+    'plot',
     'Report',
+    'summary',
+    'TrainTestData',
+    'tril_corr',
+    'utils',
+    'value_summary',
 ]
