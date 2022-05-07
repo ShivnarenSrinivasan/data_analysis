@@ -9,6 +9,7 @@ from .structs import (
     Data,
     Dataset,
     TrainTestData,
+    Report,
 )
 
 __all__ = [
@@ -17,4 +18,5 @@ __all__ = [
     'Data',
     'Dataset',
     'TrainTestData',
+    'Report',
 ]
