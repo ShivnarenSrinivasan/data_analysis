@@ -3,13 +3,13 @@ from typing import (
     Iterable,
     Union,
 )
-from functools import partial
 
 import numpy as np
 import pandas as pd
 
 
-def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
+def info(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
+    """Detailed summary of dataframe."""
     def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
         unique = ser.unique()
         extra_char = '...'
@@ -34,21 +34,11 @@ def value_summary(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
     )
 
 
-def describe_quantiles(
-    df: pd.DataFrame, quantiles: Union[Iterable[int], None] = None
+def percentiles(
+    df: pd.DataFrame, percentiles: Iterable[int] = (1, 5, 10, 25, 50, 75, 90, 95, 99)
 ) -> pd.DataFrame:
-    """Calculate quantile values of dataframe."""
-    if quantiles is None:
-        quantiles = (1, 5, 10, 25, 50, 75, 90, 95, 99)
-
-    quantile_funcs = []
-
-    for quantile in quantiles:
-        func = partial(pd.Series.quantile, q=quantile / 100)
-        func.__name__ = f'{quantile}%'
-        quantile_funcs.append(func)
-
-    return df.agg(quantile_funcs)
+    """Calculate percentile values of dataframe."""
+    return df.agg(pd.Series.quantile, q=np.array(percentiles) / 100)
 
 
 def gen_value_counts(df, thresh=10):
