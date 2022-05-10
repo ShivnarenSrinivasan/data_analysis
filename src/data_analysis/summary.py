@@ -10,6 +10,7 @@ import pandas as pd
 
 def info(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
     """Detailed summary of dataframe."""
+
     def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
         unique = ser.unique()
         extra_char = '...'
@@ -34,11 +35,14 @@ def info(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
     )
 
 
-def percentiles(
-    df: pd.DataFrame, percentiles: Iterable[int] = (1, 5, 10, 25, 50, 75, 90, 95, 99)
+QUANTILE_VALS = (0.01, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.99)
+
+
+def quantiles(
+    df: pd.DataFrame, quantiles: Iterable[int] = QUANTILE_VALS
 ) -> pd.DataFrame:
     """Calculate percentile values of dataframe."""
-    return df.agg(pd.Series.quantile, q=np.array(percentiles) / 100)
+    return df.agg(pd.Series.quantile, q=quantiles)
 
 
 def gen_value_counts(df, thresh=10):

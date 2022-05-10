@@ -10,8 +10,6 @@ from . import (
 
 from .summary import (
     info,
-    percentiles,
-    tril_corr,
     corr_vars,
 )
 
@@ -31,14 +29,12 @@ __all__ = [
     'corr_vars',
     'Data',
     'Dataset',
-    'percentiles',
     'invariant_cols',
     'plot',
     'process',
     'Report',
     'summary',
     'TrainTestData',
-    'tril_corr',
     'utils',
     'info',
 ]
