@@ -1,7 +1,9 @@
 """Data Science Helpers."""
 
 from . import (
+    analyze,
     plot,
+    process,
     summary,
     utils,
 )
@@ -25,12 +27,14 @@ from .structs import (
 )
 
 __all__ = [
+    'analyze',
     'corr_vars',
     'Data',
     'Dataset',
     'describe_quantiles',
     'invariant_cols',
     'plot',
+    'process',
     'Report',
     'summary',
     'TrainTestData',
