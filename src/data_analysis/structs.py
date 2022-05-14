@@ -23,9 +23,20 @@ from sklearn.metrics import (
     confusion_matrix,
 )
 
+
 class Data(NamedTuple):
     X: pd.DataFrame
     y: np.ndarray | pd.Series
+
+    @property
+    def df(self) -> pd.DataFrame:
+        y = pd.Series(self.y, name='Target') if isinstance(self.y, np.ndarray) else y
+        return pd.concat([self.X, y], axis=1)
+
+    @property
+    def arr(self) -> np.ndarray:
+        y = self.y.to_numpy() if isinstance(self.y, pd.Series) else self.y
+        return np.column_stack([self.X.to_numpy(), y])
 
 
 class TrainTestData(NamedTuple):
