@@ -1,4 +1,4 @@
 dist/
 build/
 *__pycache__*
-src/data_analysis_helpers.egg-info/
+data_analysis_helpers.egg-info/
