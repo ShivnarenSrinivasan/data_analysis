@@ -8,29 +8,23 @@ import numpy as np
 import pandas as pd
 
 
-def info(df: pd.DataFrame, unique_thresh: int = 20) -> pd.DataFrame:
+def info(df: pd.DataFrame) -> pd.DataFrame:
     """Detailed summary of dataframe."""
 
-    def get_unique(ser: pd.Series) -> Union[np.ndarray, str]:
-        unique = ser.unique()
-        extra_char = '...'
-        return extra_char if len(unique) > unique_thresh else unique
+    def get_unique(ser: pd.Series) -> np.ndarray:
+        return ser.unique()
 
     def value_counts(ser: pd.Series) -> Union[Dict[str, int], str]:
-        unique = ser.unique()
-        extra_char = '...'
-        return (
-            extra_char if len(unique) > unique_thresh else ser.value_counts().to_dict()
-        )
+        return ser.value_counts().to_dict()
 
     return pd.DataFrame(
         {
-            'Nunique': df.nunique(),
-            'dtypes': df.dtypes,
-            'na_count': df.isna().sum(),
-            'NA%': df.isna().sum() / df.count(),
-            'unique': df.apply(get_unique),
-            'value_counts': df.apply(value_counts),
+            "Nunique": df.nunique(),
+            "dtypes": df.dtypes,
+            "na_count": df.isna().sum(),
+            "NA%": df.isna().sum() / df.count(),
+            "unique": df.apply(get_unique),
+            "value_counts": df.apply(value_counts),
         }
     )
 
@@ -65,7 +59,7 @@ def gen_value_counts(df, thresh=10):
 
 def tril_corr(df: pd.DataFrame, drop: bool = True) -> pd.DataFrame:
 
-    cols = df.select_dtypes('number').columns
+    cols = df.select_dtypes("number").columns
     corr = pd.DataFrame(
         np.ma.masked_equal(np.tril(df.corr(), k=-1 if drop else 0), 0),
         columns=cols,
@@ -78,6 +72,6 @@ def corr_vars(df: pd.DataFrame, thresh: float = 0.8) -> pd.DataFrame:
     return (
         df.pipe(tril_corr)
         .mask(lambda df: df.abs() < thresh)
-        .dropna(how='all')
-        .dropna(how='all', axis=1)
+        .dropna(how="all")
+        .dropna(how="all", axis=1)
     )
